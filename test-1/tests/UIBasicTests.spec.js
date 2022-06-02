@@ -14,3 +14,21 @@ test('Default browser context test', async ({page}) => {
     await page.goto('https://www.rahulshettyacademy.com/loginpagePractise/')
     await expect(page).toHaveTitle('LoginPage Practise | Rahul Shetty Academy')
 })
+
+test('Signin with wrong credentials', async ({page}) => {
+    await page.goto('https://www.rahulshettyacademy.com/loginpagePractise/')
+    
+    const wrongUsername = 'rahulshetty'
+
+    const username = await page.locator('#username')
+    await username.type(wrongUsername)
+
+    const password = await page.locator('#password')
+    await password.type('learning')
+
+    await page.locator('#signInBtn').click()
+
+    const  errorMessage = page.locator("[style*='block']")
+    console.log("Error message: " + await errorMessage.textContent())
+    await expect(errorMessage).toContainText("Incorrect username/password.")
+})
