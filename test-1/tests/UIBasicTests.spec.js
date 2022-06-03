@@ -28,8 +28,8 @@ test('Signin with wrong credentials', async ({page}) => {
     const username = await page.locator('#username')
     await username.type(wrongUsername)
 
-    const password = await page.locator('#password')
-    await password.type(password)
+    const passwordField = await page.locator('#password')
+    await passwordField.type(password)
 
     await page.locator('#signInBtn').click()
 
@@ -45,8 +45,8 @@ test('Signin with correct credentials', async ({page}) => {
     const username = await page.locator('#username')
     await username.type(wrongUsername)
 
-    const password = await page.locator('#password')
-    await password.type(password)
+    const passwordField = await page.locator('#password')
+    await passwordField.type(password)
 
     const signinButton = await page.locator('#signInBtn')
     await signinButton.click()
@@ -64,7 +64,7 @@ test('Signin with correct credentials', async ({page}) => {
 })
 
 
-test.only('Manipulating a dropdown', async ({page}) => {
+test('Manipulating a dropdown', async ({page}) => {
 
     await page.goto(siteUrl)
 
@@ -72,5 +72,21 @@ test.only('Manipulating a dropdown', async ({page}) => {
     
     let selectedValue = await dropdown.selectOption("consult")
     await expect(selectedValue).toContain("consult")
+
+})
+
+test('Manipulating a radio button', async ({page}) => {
+
+    await page.goto(siteUrl)
+
+    const radioGroup = page.locator(".radiotextsty")
+    
+    await expect(radioGroup.first()).toBeChecked()
+    await expect(radioGroup.last()).not.toBeChecked()
+
+    await radioGroup.last().click()
+
+    await expect(radioGroup.last()).toBeChecked()
+    await expect(radioGroup.first()).not.toBeChecked()
 
 })
