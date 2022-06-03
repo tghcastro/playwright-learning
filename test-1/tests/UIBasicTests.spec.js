@@ -3,6 +3,7 @@ const {test, expect} = require('@playwright/test')
 const wrongUsername = 'rahulshetty'
 const correctUsername = 'rahulshettyacademy'
 const siteUrl = 'https://www.rahulshettyacademy.com/loginpagePractise/' 
+const password = 'learning'
 
 test('Setting browser context test', async ({browser})=> {
     // It's possible to set Cookies and other bowser using context
@@ -28,7 +29,7 @@ test('Signin with wrong credentials', async ({page}) => {
     await username.type(wrongUsername)
 
     const password = await page.locator('#password')
-    await password.type('learning')
+    await password.type(password)
 
     await page.locator('#signInBtn').click()
 
@@ -45,7 +46,7 @@ test('Signin with correct credentials', async ({page}) => {
     await username.type(wrongUsername)
 
     const password = await page.locator('#password')
-    await password.type('learning')
+    await password.type(password)
 
     const signinButton = await page.locator('#signInBtn')
     await signinButton.click()
@@ -60,4 +61,16 @@ test('Signin with correct credentials', async ({page}) => {
     const top = page.locator('body > app-root > app-navbar > div > nav > a')
     await expect(top).toContainText('ProtoCommerce')
     
+})
+
+
+test.only('Manipulating a dropdown', async ({page}) => {
+
+    await page.goto(siteUrl)
+
+    const dropdown = page.locator("select.form-control")
+    
+    let selectedValue = await dropdown.selectOption("consult")
+    await expect(selectedValue).toContain("consult")
+
 })
